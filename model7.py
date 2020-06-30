@@ -132,38 +132,38 @@ mae_per_fold7 = []
 loss_per_fold7 = []
 kfold = KFold(n_splits=5, shuffle=True, random_state=7)
 
-# KFold_CNN=0
-# for train, test in kfold.split(x_train, y_train):
-#   model7 = cnn_model7()
-#   KFold_CNN+=1
-#   file_path = "weights_model7_{}.best.h5".format(KFold_CNN)
-#   model_checkpoint7 = ModelCheckpoint(file_path, verbose=1, save_best_only=True, monitor='val_loss', mode='min')
-#   tb7 = TensorBoard(r"/content/drive/My Drive/mols/TB-model7_{}_".format(KFold_CNN) + datetime.now().strftime("%Y%m%d-%H%M%S"),
-#                  histogram_freq=5, write_images=True, update_freq=100)
-#   history7 = model7.fit(x_train[train], y_train[train],
-#               batch_size=70, validation_data=(x_train[test], y_train[test]),
-#               epochs=1200, callbacks=[model_checkpoint7, tb7],
-#               validation_split=0.2)
-#
-#   # Generate generalization metrics
-#   scores = model7.evaluate(x_train[test], y_train[test], verbose=0)
-#   print(f'Score for fold {fold_no}: {model7.metrics_names[0]} of {scores[0]}; {model7.metrics_names[1]} of {scores[1]}%')
-#   mae_per_fold7.append(scores[1])
-#   loss_per_fold7.append(scores[0])
-#   # restart model
-#   del(model7)
-#     # Increase fold number
-#   fold_no = fold_no + 1
+KFold_CNN=0
+for train, test in kfold.split(x_train, y_train):
+  model7 = cnn_model7()
+  KFold_CNN+=1
+  file_path = "weights_model7_{}.best.h5".format(KFold_CNN)
+  model_checkpoint7 = ModelCheckpoint(file_path, verbose=1, save_best_only=True, monitor='val_loss', mode='min')
+  tb7 = TensorBoard(r"/content/drive/My Drive/mols/TB-model7_{}_".format(KFold_CNN) + datetime.now().strftime("%Y%m%d-%H%M%S"),
+                 histogram_freq=5, write_images=True, update_freq=100)
+  history7 = model7.fit(x_train[train], y_train[train],
+              batch_size=70, validation_data=(x_train[test], y_train[test]),
+              epochs=1200, callbacks=[model_checkpoint7, tb7],
+              validation_split=0.2)
+
+  # Generate generalization metrics
+  scores = model7.evaluate(x_train[test], y_train[test], verbose=0)
+  print(f'Score for fold {fold_no}: {model7.metrics_names[0]} of {scores[0]}; {model7.metrics_names[1]} of {scores[1]}%')
+  mae_per_fold7.append(scores[1])
+  loss_per_fold7.append(scores[0])
+  # restart model
+  del(model7)
+    # Increase fold number
+  fold_no = fold_no + 1
 
 
-# for i in range(0, len(mae_per_fold10)):
-#     print('------------------------------------------------------------------------')
-#     print(f'> Fold {i + 1} - Loss: {loss_per_fold10[i]} - MAE: {mae_per_fold10[i]}%')
-# print('------------------------------------------------------------------------')
-# print('Average scores for all folds:')
-# print(f'> MAE: {np.mean(mae_per_fold10)} (+- {np.std(mae_per_fold10)})')
-# print(f'> Loss: {np.mean(loss_per_fold10)}')
-# print('------------------------------------------------------------------------')
+for i in range(0, len(mae_per_fold10)):
+    print('------------------------------------------------------------------------')
+    print(f'> Fold {i + 1} - Loss: {loss_per_fold10[i]} - MAE: {mae_per_fold10[i]}%')
+print('------------------------------------------------------------------------')
+print('Average scores for all folds:')
+print(f'> MAE: {np.mean(mae_per_fold10)} (+- {np.std(mae_per_fold10)})')
+print(f'> Loss: {np.mean(loss_per_fold10)}')
+print('------------------------------------------------------------------------')
 
 
 def eval_new_20_mols(eval_data):
